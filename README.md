@@ -10,6 +10,8 @@ Download and play directly on your phone:
 - Open in mobile browser
 - Add to home screen for app-like experience
 
+<p> or click  <a href="https://raw.githubusercontent.com/ogcae/buscador-de-quesitos/refs/heads/main/uni-file/bdq.html" download>this link</a></p>
+
 **Option 2 - Clone Repository:**
 ```bash
 git clone https://github.com/ogcae/buscador-de-quesitos
