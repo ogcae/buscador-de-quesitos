@@ -1,0 +1,220 @@
+/* mobile cheese radar - fullscreen responsive */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #001100;
+    color: #00FF00;
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.radar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radar-background {
+    width: min(95vw, 95vh);
+    height: min(95vw, 95vh);
+    border-radius: 50%;
+    background: radial-gradient(circle, #001100 0%, #002200 100%);
+    border: 3px solid #00FF00;
+    position: relative;
+    cursor: crosshair;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.radar-grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+
+.radar-circle {
+    position: absolute;
+    border: 1px solid #006600;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radar-circle:nth-child(1) { width: 25%; height: 25%; }
+.radar-circle:nth-child(2) { width: 50%; height: 50%; }
+.radar-circle:nth-child(3) { width: 75%; height: 75%; }
+.radar-circle:nth-child(4) { width: 100%; height: 100%; }
+
+.radar-line {
+    position: absolute;
+    width: 1px;
+    height: 50%;
+    background: #006600;
+    top: 0;
+    left: 50%;
+    transform-origin: bottom center;
+}
+
+.radar-line:nth-child(5) { transform: translateX(-50%) rotate(0deg); }
+.radar-line:nth-child(6) { transform: translateX(-50%) rotate(45deg); }
+.radar-line:nth-child(7) { transform: translateX(-50%) rotate(90deg); }
+.radar-line:nth-child(8) { transform: translateX(-50%) rotate(135deg); }
+
+/* conic-gradient reference: https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/conic-gradient */
+.radar-sweep {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 300deg,
+        rgba(0, 255, 0, 0.3) 330deg,
+        rgba(0, 255, 0, 0.8) 360deg
+    );
+    border-radius: 50%;
+    animation: sweep 3s linear infinite;
+}
+
+@keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.radar-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: #00FF00;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00FF00;
+}
+
+.ping {
+    position: absolute;
+    border: 2px solid #00FF00;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ping-animation 2s ease-out forwards;
+}
+
+@keyframes ping-animation {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+}
+
+.cheese {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 10;
+    border: 3px solid #00FF00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+    transition: transform 0.3s ease;
+}
+
+.cheese:hover {
+    transform: scale(1.1);
+}
+
+.cheese img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.cheese.moving {
+    animation: move-around 15s linear infinite;
+}
+
+@keyframes move-around {
+    0% { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+.cheese.spawn {
+    animation: spawn-cheese 0.5s ease-out forwards;
+}
+
+@keyframes spawn-cheese {
+    0% { opacity: 0; transform: scale(0); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.instruction {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    text-align: center;
+    color: #00AA00;
+    z-index: 100;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+/* mobile optimizations */
+@media (max-width: 768px) {
+    .instruction {
+        font-size: 12px;
+        bottom: 20px;
+    }
+    
+    .cheese {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .radar-background {
+        width: 98vw;
+        height: 98vh;
+    }
+}
+
+@media (max-height: 600px) {
+    .instruction {
+        font-size: 11px;
+        bottom: 15px;
+    }
+}
+
+/* portrait mobile optimization */
+@media (orientation: portrait) and (max-width: 768px) {
+    .radar-background {
+        width: 95vw;
+        height: 95vw;
+    }
+}
